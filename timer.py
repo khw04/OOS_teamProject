@@ -39,3 +39,44 @@ class StudyTracker:     #공부타이머
         print(f"⏸️ 중지됨 - {token} 공부시간: {timedelta(seconds=duration)}")
         input("엔터를 눌러 계속하세요...")
         self.start_time = None
+
+    def end_day(self):      #당일 공부량 저장
+        today_str = str(self.today_date)
+        if today_str not in self.data:
+            self.data[today_str] = []
+
+        for start, end, token in self.sessions:     #토큰 별 기록
+            self.data[today_str].append({
+                "start": start,
+                "end": end,
+                "token": token,
+                "duration": end - start
+            })
+        self.save_data()    #저장
+        print("✅ 오늘 공부 기록 저장 완료.")
+        input("엔터를 눌러 계속하세요...")
+
+    def show_summary(self):     #하루 공부 요약
+        today_str = str(self.today_date)
+        if today_str not in self.data:
+            print("오늘 공부 기록이 없습니다.")
+            input("엔터를 눌러 계속하세요...")
+            return
+
+        total = 0                               #(당일)전체 공부시간
+        token_map = defaultdict(float)          #(당일)과목별 누적 공부시간
+
+        for record in self.data[today_str]:
+            duration = record['duration']
+            token = record['token']
+            total += duration
+            token_map[token] += duration
+
+        print(f"\n📅 {today_str} 공부 요약")
+        print(f"총 공부 시간: {timedelta(seconds=total)}")
+        for token, sec in token_map.items():
+            print(f"  {token}: {timedelta(seconds=sec)}")
+        print("💡 휴식은 총 공부 시간의 20% 정도를 추천합니다.\n")
+        input("엔터를 눌러 계속하세요...")
+
+
