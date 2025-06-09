@@ -79,4 +79,38 @@ class StudyTracker:     #공부타이머
         print("💡 휴식은 총 공부 시간의 20% 정도를 추천합니다.\n")
         input("엔터를 눌러 계속하세요...")
 
+    def clear_screen():     #출력창 clear(window)
+        os.system('cls')  
 
+
+    def main():     #메인
+        tracker = StudyTracker()    #타이머 객체 생성    
+
+        while True:
+            clear_screen()
+            print("\n==== 공부 시간 측정기 ====")
+            print("1. 공부 시작")
+            print("2. 공부 중지")
+            print("3. 오늘 요약 보기")
+            print("4. 기록 저장 (종료)")
+            print("5. 종료")
+
+            choice = input("선택하세요 (1-5): ")
+
+            if choice == '1':
+                tracker.start()
+            elif choice == '2':
+                token = input("어떤 과목(토큰)인가요? ")
+                tracker.pause(token)
+            elif choice == '3':
+                tracker.show_summary()
+            elif choice == '4':
+                tracker.end_day()
+            elif choice == '5':
+                print("프로그램을 종료합니다.")
+                break
+            else:
+                print("올바른 번호를 입력해 주세요.")
+
+    if __name__ == "__main__":      #프로그램 시작점
+        main()
