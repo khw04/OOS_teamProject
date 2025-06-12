@@ -1,0 +1,95 @@
+import json
+def load_answer_sheet(filename): #답안지(json파일) 불러오기
+    try:
+        with open(filename, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+def save_answer_sheet(filename, answer_sheet): #답안지(json파일) 쓰기
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(answer_sheet, f, ensure_ascii=False, indent=4)
+
+def add_quiz(): #퀴즈 저장하기(주관식, 객관식), OX 추가 예정정
+    question = input("문제: ").strip()
+    while True:
+        qtype = input("유형 (객관식/주관식): ").strip()
+        if qtype in ("객관식", "주관식"):
+            break
+        print("객관식 또는 주관식만 입력 가능합니다.")
+
+    quiz = {
+        "question": question,
+        "type": qtype
+    }
+
+    if qtype == "객관식":
+        choices = []
+        print("객관식 선택지 4개를 입력하세요.")
+        for i in range(4):
+            while True:
+                choice = input(f"선택지 {i+1}: ").strip()
+                if choice:
+                    choices.append(choice)
+                    break
+                print("빈 입력은 안 됩니다.")
+        quiz["choices"] = choices
+
+    answer = input("정답을 입력하세요: ").strip()
+    quiz["answer"] = answer
+
+    return quiz
+
+def run_quiz(quiz):
+    print("\n문제:", quiz["question"])
+    if quiz["type"] == "객관식":
+        for idx, choice in enumerate(quiz["choices"], 1):
+            print(f"{idx}. {choice}")
+        while True:
+            ans = input("정답 번호를 입력하세요: ").strip()
+            if ans.isdigit():
+                ans_idx = int(ans) - 1
+                if 0 <= ans_idx < len(quiz["choices"]):
+                    if quiz["choices"][ans_idx] == quiz["answer"]:
+                        print("정답입니다!")
+                    else:
+                        print(f"틀렸습니다. 정답은 '{quiz['answer']}'입니다.")
+                    break
+            print("올바른 번호를 입력하세요.")
+    else:  # 주관식
+        ans = input("정답을 입력하세요: ").strip()
+        if ans == quiz["answer"]:
+            print("정답입니다!")
+        else:
+            print(f"틀렸습니다. 정답은 '{quiz['answer']}'입니다.")
+
+def main(): #exit하기 전까지 main에서 남기
+    filename = "answer_sheet.json"
+    answer_sheet = load_answer_sheet(filename)
+
+    while True:
+        print("\n=== 퀴즈 프로그램 ===")
+        print("1. 퀴즈 추가")
+        print("2. 퀴즈 실행")
+        print("3. 종료")
+        choice = input("선택: ").strip()
+
+        if choice == "1":
+            quiz = add_quiz()
+            answer_sheet.append(quiz)
+            save_answer_sheet(filename, answer_sheet)
+            print("퀴즈가 저장되었습니다.")
+        elif choice == "2":
+            if not answer_sheet:
+                print("등록된 퀴즈가 없습니다.")
+                continue
+            for quiz in answer_sheet:
+                run_quiz(quiz)
+        elif choice == "3":
+            print("프로그램을 종료합니다.")
+            break
+        else:
+            print("잘못된 입력입니다. 다시 선택해주세요.")
+
+if __name__ == "__main__":
+    main()
