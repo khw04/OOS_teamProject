@@ -43,6 +43,29 @@ def add_quiz():  # 퀴즈 저장하기 (객관식, 주관식, OX)
 
     return quiz
 
+def delete_quiz(answer_sheet, filename):
+    if not answer_sheet:
+        print("삭제할 퀴즈가 없습니다.")
+        return
+
+    print("\n=== 삭제할 퀴즈 목록 ===")
+    for idx, quiz in enumerate(answer_sheet, 1):
+        print(f"{idx}. {quiz['question']}")
+
+    while True:
+        choice = input("삭제할 퀴즈 번호를 입력하세요 (취소: 0): ").strip()
+        if choice.isdigit():
+            idx = int(choice)
+            if idx == 0:
+                print("삭제를 취소했습니다.")
+                return
+            if 1 <= idx <= len(answer_sheet):
+                removed = answer_sheet.pop(idx - 1)
+                save_answer_sheet(filename, answer_sheet)
+                print(f"'{removed['question']}' 퀴즈가 삭제되었습니다.")
+                return
+        print("올바른 번호를 입력하세요.")
+
 def run_quiz(quiz):
     print("\n문제:", quiz["question"])
     if quiz["type"] in ("객관식", "OX"): #객관식, OX
@@ -74,7 +97,8 @@ def main(): #메인함수, exit 하기전까지 남기기
         print("\n=== 퀴즈 프로그램 ===")
         print("1. 퀴즈 추가")
         print("2. 퀴즈 실행")
-        print("3. 종료")
+        print("3. 퀴즈 삭제제")
+        print("4. 종료")
         choice = input("선택: ").strip()
 
         if choice == "1":
@@ -89,6 +113,8 @@ def main(): #메인함수, exit 하기전까지 남기기
             for quiz in answer_sheet:
                 run_quiz(quiz)
         elif choice == "3":
+            delete_quiz(answer_sheet, filename)
+        elif choice == "4":
             print("프로그램을 종료합니다.")
             break
         else:
