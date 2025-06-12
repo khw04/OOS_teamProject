@@ -45,7 +45,7 @@ def add_quiz():  # 퀴즈 저장하기 (객관식, 주관식, OX)
 
     return quiz
 
-def delete_quiz(answer_sheet, filename):
+def delete_quiz(answer_sheet, filename): #퀴즈 삭제제
     if not answer_sheet:
         print("삭제할 퀴즈가 없습니다.")
         return
@@ -99,7 +99,7 @@ def main(): #메인함수, exit 하기전까지 남기기
         print("\n=== 퀴즈 프로그램 ===")
         print("1. 퀴즈 추가")
         print("2. 퀴즈 실행")
-        print("3. 퀴즈 삭제제")
+        print("3. 퀴즈 삭제")
         print("4. 종료")
         choice = input("선택: ").strip()
 
