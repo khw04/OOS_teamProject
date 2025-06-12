@@ -1,4 +1,6 @@
 import json
+import random
+
 def load_answer_sheet(filename):  # 답안지(json파일) 불러오기
     try:
         with open(filename, "r", encoding="utf-8") as f:
@@ -110,7 +112,9 @@ def main(): #메인함수, exit 하기전까지 남기기
             if not answer_sheet:
                 print("등록된 퀴즈가 없습니다.")
                 continue
-            for quiz in answer_sheet:
+            shuffled_sheet = answer_sheet[:]
+            random.shuffle(shuffled_sheet)
+            for quiz in shuffled_sheet:
                 run_quiz(quiz)
         elif choice == "3":
             delete_quiz(answer_sheet, filename)
