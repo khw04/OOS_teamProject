@@ -164,7 +164,7 @@ def main():
         print("3. 퀴즈 풀기(1개씩 반복 학습)")
         print("4. 단어 시험하기(최대 30개)")
         print("5. 단어 삭제")
-        print("6. 종료")
+        print("6. 메인 시작 화면으로 돌아가기")
         choice = input("선택: ").strip()
 
         if choice == '1':
@@ -182,7 +182,7 @@ def main():
             save_voca(username, voca)
         elif choice == '6':
             print("프로그램 종료.")
-            break
+            return 1
         else:
             print("올바른 번호를 입력하세요.")
 

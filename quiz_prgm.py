@@ -100,7 +100,7 @@ def main(): #메인함수, exit 하기전까지 남기기
         print("1. 퀴즈 추가")
         print("2. 퀴즈 실행")
         print("3. 퀴즈 삭제")
-        print("4. 종료")
+        print("4. 메인 시작 화면으로 돌아가기")
         choice = input("선택: ").strip()
 
         if choice == "1":
@@ -120,7 +120,7 @@ def main(): #메인함수, exit 하기전까지 남기기
             delete_quiz(answer_sheet, filename)
         elif choice == "4":
             print("프로그램을 종료합니다.")
-            break
+            return 1
         else:
             print("잘못된 입력입니다. 다시 선택해주세요.")
 

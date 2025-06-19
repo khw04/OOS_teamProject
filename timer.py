@@ -92,7 +92,7 @@ def main():  # 메인 루프
         print("2. 공부 중지")
         print("3. 오늘 요약 보기")
         print("4. 기록 저장 (종료)")
-        print("5. 종료")
+        print("5. 메인 시작 화면으로 돌아가기")
 
         choice = input("선택하세요 (1-5): ")
 
@@ -107,7 +107,7 @@ def main():  # 메인 루프
             tracker.end_day()
         elif choice == '5':
             print("프로그램을 종료합니다.")
-            break
+            return 1
         else:
             print("올바른 번호를 입력해 주세요.")
 
