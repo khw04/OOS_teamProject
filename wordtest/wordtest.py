@@ -2,6 +2,10 @@ import json
 import random
 import os
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
 FILE_NAME = "voca.json"
 
 # 사용자 불러오기(없으면 생성)
@@ -153,6 +157,7 @@ def main():
     voca = load_voca(username)
 
     while True:
+        clear_screen()
         print("\n--- 단어 암기장 ---")
         print("1. 단어 추가")
         print("2. 단어 보기")
